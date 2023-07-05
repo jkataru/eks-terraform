@@ -36,7 +36,6 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-  enable_irsa = true
 
   eks_managed_node_group_defaults = {
     disk_size = 50
@@ -93,13 +92,14 @@ module "eks_blueprints_addons" {
   cluster_endpoint  = module.eks.cluster_endpoint
   cluster_version   = module.eks.cluster_version
   oidc_provider_arn = module.eks.oidc_provider_arn
+  # config_path       = "~/.kube/config"
 
   eks_addons = {
     aws-ebs-csi-driver = {}
   }
 
-  enable_cert_manager         = true
-  enable_aws_privateca_issuer = true
+  enable_cert_manager         = false
+  enable_aws_privateca_issuer = false
   # aws_privateca_issuer = {
   #   acmca_arn = aws_acmpca_certificate_authority.this.arn
   # }
@@ -117,4 +117,80 @@ module "kubernetes_addons" {
   # resolve_conflicts_on_update  = "OVERWRITE"
 
   }
+}
+
+provider "kubernetes" {
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+  }
+  config_path = local.kubeconfig
+
+}
+
+# data "aws_eks_cluster" "this" {
+#   name = module.eks.cluster_name
+# }
+
+# data "aws_eks_cluster_auth" "ephemeral" {
+#   name = module.eks.cluster_name
+# }
+
+# locals {
+#   kubeconfig = templatefile("./test.tpl", {
+#     kubeconfig_name                   = "main_k"
+#     endpoint                          = module.eks.cluster_endpoint
+#     cluster_auth_base64               = module.eks.cluster_certificate_authority_data
+#     aws_authenticator_command         = "aws-iam-authenticator"
+#     aws_authenticator_command_args    = ["token", "-i", module.eks.cluster_name]
+#     aws_authenticator_additional_args = []
+#     aws_authenticator_env_variables   = {}
+#     load_config_file       = false
+#   })
+# }
+
+# output "kubeconfig" { value = "main_k" }
+
+data "aws_eks_cluster" "this" {
+  name = module.eks.cluster_name
+}
+
+data "aws_eks_cluster_auth" "ephemeral" {
+  name = module.eks.cluster_name
+}
+
+locals {
+  kubeconfig = yamlencode({
+    apiVersion      = "v1"
+    kind            = "Config"
+    current-context = "terraform"
+    clusters = [{
+      name = module.eks.cluster_id
+      cluster = {
+        certificate-authority-data = module.eks.cluster_certificate_authority_data
+        server                     = module.eks.cluster_endpoint
+      }
+    }]
+    contexts = [{
+      name = "terraform"
+      context = {
+        cluster = module.eks.cluster_id
+        user    = "terraform"
+      }
+    }]
+    users = [{
+      name = "terraform"
+      user = {
+        token = module.eks.cluster_name
+      }
+    }]
+  })
+}
+output "kubeconfig" {
+  value       =  local.kubeconfig
+  description = "kubeconfig for the AWS EKS cluster"
 }
