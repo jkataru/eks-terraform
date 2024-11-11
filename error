@@ -1,3 +1,10 @@
+ Error: creating ECS Service (queue-broker-inf): InvalidParameterException: The target group with targetGroupArn arn:aws:elasticloadbalancing:us-east-1:949567456174:targetgroup/preprod-Q-broker-inf-2/abbe9022f35c43f2 does not have an associated load balancer.
+│
+│   with module.queue_broker_inf_ecs_service.aws_ecs_service.ecs_service,
+│   on modules/ecs/main.tf line 1, in resource "aws_ecs_service" "ecs_service":
+│    1: resource "aws_ecs_service" "ecs_service" {
+│
+╵
 
 │ Error: creating ELBv2 application Load Balancer (preprod-app-elb): ValidationError: At least two subnets in two different Availability Zones must be specified
 │ 	status code: 400, request id: 62cf3e5c-e574-4638-b771-4b454ff7e7b4
