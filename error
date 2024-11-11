@@ -1,1 +1,9 @@
-
+ Error: Error in function call
+│
+│   on modules/ecs/main.tf line 27, in resource "aws_ecs_service" "ecs_service":
+│   27:     for_each = var.target_group_arn != null && length(var.target_group_arn) == length(var.container_port) ? zipmap(var.target_group_arn, var.container_port) : {}
+│     ├────────────────
+│     │ while calling zipmap(keys, values)
+│     │ var.container_port is list of number with 1 element
+│     │ var.target_group_arn is list of string with 1 element
+│
