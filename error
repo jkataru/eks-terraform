@@ -30,3 +30,22 @@
 │   on modules/networking/security_group/main.tf line 1, in resource "aws_security_group" "main_sg":
 │    1: resource "aws_security_group" "main_sg" {
 │
+│ Error: Invalid index
+│
+│   on modules/networking/vpc/main.tf line 74, in resource "aws_route_table_association" "public_main_associate":
+│   74:   route_table_id = aws_route_table.public_route["public"].id
+│     ├────────────────
+│     │ aws_route_table.public_route is tuple with 1 element
+│
+│ The given key does not identify an element in this collection value: a number is required.
+╵
+╷
+│ Error: Invalid index
+│
+│   on modules/networking/vpc/main.tf line 74, in resource "aws_route_table_association" "public_main_associate":
+│   74:   route_table_id = aws_route_table.public_route["public"].id
+│     ├────────────────
+│     │ aws_route_table.public_route is tuple with 1 element
+│
+│ The given key does not identify an element in this collection value: a number is required.
+╵
