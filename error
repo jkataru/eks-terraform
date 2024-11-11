@@ -48,4 +48,18 @@
 │     │ aws_route_table.public_route is tuple with 1 element
 │
 │ The given key does not identify an element in this collection value: a number is required.
+
+Network bindings
+Host port
+Container port
+Protocol
+External link
+5577
+5577
+tcp
+52.206.130.39:5577 | open address 
+5578
+5578
+tcp
+52.206.130.39:5578 | open address 
 ╵
