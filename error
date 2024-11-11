@@ -7,3 +7,12 @@
 │     │ var.container_port is list of number with 1 element
 │     │ var.target_group_arn is list of string with 1 element
 │
+
+ Error: Invalid value for input variable
+│
+│   on preprod-terraform.tfvars line 47:
+│   47: admin_http_container_port = 8080
+│
+│ The given value is not suitable for var.admin_http_container_port declared at variable.tf:225,1-37: list of number required.
+╵
+╷
