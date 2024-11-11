@@ -1,3 +1,9 @@
+│ Error: creating ECS Service (archiver): InvalidParameterException: The target group with targetGroupArn arn:aws:elasticloadbalancing:us-east-1::targetgroup/preprod-archiver/ does not have an associated load balancer.
+│
+│   with module.ecs_archiver_taskdefination.aws_ecs_service.ecs_service,
+│   on modules/ecs/main.tf line 1, in resource "aws_ecs_service" "ecs_service":
+│    1: resource "aws_ecs_service" "ecs_service" {
+│
 Error: Invalid function argument
 │
 │   on modules/ecs/main.tf line 27, in resource "aws_ecs_service" "ecs_service":
