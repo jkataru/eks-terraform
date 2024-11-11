@@ -1,4 +1,13 @@
- Error: Error in function call
+Error: Invalid function argument
+│
+│   on modules/ecs/main.tf line 27, in resource "aws_ecs_service" "ecs_service":
+│   27:     for_each = var.target_group_arn != null && length(var.target_group_arn) == length(var.container_port) ? zipmap(var.target_group_arn, var.container_port) : {}
+│     ├────────────────
+│     │ while calling length(value)
+│     │ var.target_group_arn is null
+│
+│ Invalid value for "value" parameter: argument must not be null.
+Error: Error in function call
 │
 │   on modules/ecs/main.tf line 27, in resource "aws_ecs_service" "ecs_service":
 │   27:     for_each = var.target_group_arn != null && length(var.target_group_arn) == length(var.container_port) ? zipmap(var.target_group_arn, var.container_port) : {}
