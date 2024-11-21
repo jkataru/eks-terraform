@@ -1,0 +1,33 @@
+│ Error: creating ECS Service (archiver): InvalidParameterException: The target group with targetGroupArn arn:aws:elasticloadbalancing:us-east-1::targetgroup/preprod-archiver/ does not have an associated load balancer.
+│
+│   with module.ecs_archiver_taskdefination.aws_ecs_service.ecs_service,
+│   on modules/ecs/main.tf line 1, in resource "aws_ecs_service" "ecs_service":
+│    1: resource "aws_ecs_service" "ecs_service" {
+│
+Error: Invalid function argument
+│
+│   on modules/ecs/main.tf line 27, in resource "aws_ecs_service" "ecs_service":
+│   27:     for_each = var.target_group_arn != null && length(var.target_group_arn) == length(var.container_port) ? zipmap(var.target_group_arn, var.container_port) : {}
+│     ├────────────────
+│     │ while calling length(value)
+│     │ var.target_group_arn is null
+│
+│ Invalid value for "value" parameter: argument must not be null.
+Error: Error in function call
+│
+│   on modules/ecs/main.tf line 27, in resource "aws_ecs_service" "ecs_service":
+│   27:     for_each = var.target_group_arn != null && length(var.target_group_arn) == length(var.container_port) ? zipmap(var.target_group_arn, var.container_port) : {}
+│     ├────────────────
+│     │ while calling zipmap(keys, values)
+│     │ var.container_port is list of number with 1 element
+│     │ var.target_group_arn is list of string with 1 element
+│
+
+ Error: Invalid value for input variable
+│
+│   on preprod-terraform.tfvars line 47:
+│   47: admin_http_container_port = 8080
+│
+│ The given value is not suitable for var.admin_http_container_port declared at variable.tf:225,1-37: list of number required.
+╵
+╷
